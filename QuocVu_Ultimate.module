@@ -211,6 +211,13 @@ locket-15s-config = type=http-response,pattern=^https?:\/\/(api\.locketcam\.com|
 # RevenueCat ETag Remove (synced with NMS)
 ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
 ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+
+# Xóa ETag Cache của Firebase Remote Config & Locket API để ép load lại cấu hình 15s ngay lập tức
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del If-None-Match
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del if-none-match
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del If-Modified-Since
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del if-modified-since
+
 # Spotify Cache Remove (Synced: app2smile spotify.module 2025.06.27)
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(user-customization-service\/v1\/customize|bootstrap\/v1\/bootstrap)$ header-del if-none-match
 
