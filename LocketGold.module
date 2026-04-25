@@ -1,0 +1,108 @@
+#!name=LocketGold.app Premium
+#!desc=Unlock Premium: Locket Gold, YouTube, Spotify, SoundCloud, PicsArt, Emby, KineMaster, Lightroom, Photoshop, Djay, Calm, Bussu, VSCO, Mojo, Widgetsmith, Headspace, Funimate, Reface, Unfold, AlightMotion, Wink, Truecaller, CamScanner, BeautyPlus, Sub-Store
+#!version=5.2.1
+#!date=2026-04-23
+#!author=LocketGold.app
+#!homepage=https://locketgold.app
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Unlock.png
+#!system=ios
+#!category=Premium Unlocker
+
+[General]
+bypass-system = true
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
+dns-server = system
+ipv6 = false
+force-http-engine-hosts = %APPEND% *youtube.com:443, *googlevideo.com:443
+
+[Rule]
+DOMAIN-SUFFIX,audio-ak-spotify-com.akamaized.net,REJECT
+DOMAIN-SUFFIX,audio4-ak-spotify-com.akamaized.net,REJECT
+DOMAIN-SUFFIX,heads-ak-spotify-com.akamaized.net,REJECT
+DOMAIN-SUFFIX,heads4-ak-spotify-com.akamaized.net,REJECT
+DOMAIN,spclient.wg.spotify.com,DIRECT
+DOMAIN-KEYWORD,spotify-ads,REJECT
+DOMAIN-KEYWORD,spotify.com/ad,REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com), (PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN,pagead2.googlesyndication.com,REJECT
+DOMAIN,www.googleadservices.com,REJECT
+
+[Script]
+sub-store-core = type=http-request,pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))),script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/sub-store-1.min.js,requires-body=true,timeout=120
+sub-store-simple = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/sub-store-0.min.js,requires-body=true
+sub-store-sync = type=cron,cronexp=0 0 * * *,wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/cron-sync-artifacts.min.js
+
+youtube-request = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|reel\/reel_watch_sequence|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/youtube.response.js
+youtube-response = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/youtube.response.js,argument={"lyricLang":"vi","captionLang":"vi","blockUpload":true,"blockImmersive":true,"debug":false}
+
+spotify-json = type=http-request,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/( artistview\/v1\/artist|album-entity-view\/v2\/album)\/,requires-body=0,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/spotify-json.js
+spotify-proto = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/( bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,requires-body=1,binary-body-mode=1,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/spotify-proto.js,script-update-interval=0
+
+soundcloud-response = type=http-response,pattern=https://api-mobile.soundcloud.com/configuration/ios,requires-body=1,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/SoundCloudGoPlus.js
+
+picsart-response = type=http-request,pattern=^https:\/\/api\.picsart\.com\/gw-v2\/shop\/subscription\/apple\/purchases,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/PicsArt.js,requires-body=true,timeout=60
+
+emby-response = type=http-response,pattern=^https?:\/\/mb3admin\.com\/admin\/service\/registration\/validateDevice,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/emby.js
+
+kinemaster-response = type=http-response,pattern=^https:\/\/api-account\.kinemasters\.com\/v\d\/user\/subscribe$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/Kinemaster.js
+
+lightroom-response = type=http-response,pattern=^https:\/\/photos\.adobe\.io\/v2\/accounts,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/Lightroom.json
+
+photoshop-response = type=http-response,pattern=^https:\/\/lcs-mobile-cops\.adobe\.io\/mobile_profile,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/Photoshop.json
+
+djay-response = type=http-response,pattern=^https:\/\/app\.algoriddim\.com\/api\/v1\/validate-receipt,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/djay.json
+
+calm-response = type=http-response,pattern=^https:\/\/api\.calm\.com\/me$,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/calm.json
+
+bussu-response = type=http-response,pattern=^https:\/\/api\.busuu\.com\/users\/me,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/bussu.json
+
+headspace-response = type=http-response,pattern=^https:\/\/api\.prod\.headspace\.com\/.*\/user-subscriptions,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/headspace.json
+
+vsco-response = type=http-response,pattern=^https:\/\/vsco\.co\/api\/subscriptions\/2\.1\/user-subscriptions,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/vsco.json
+
+mojo-response = type=http-response,pattern=^https:\/\/api\.mojo-app\.com\/v\d\/subscription,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/mojo.json
+
+widgetsmith-response = type=http-response,pattern=^https:\/\/widgetsmith\.com\/api\/subscription,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/widgetsmith.json
+
+funimate-response = type=http-response,pattern=^https:\/\/api\.funimate\.com\/users\/me,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/Funimate.json
+
+reface-response = type=http-response,pattern=^https:\/\/api\.reface\.video\/api\/reface\/v1\/iosSubscription,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/reface.json
+
+unfold-response = type=http-response,pattern=^https:\/\/api\.unfold\.app\/v1\/ios\/receipts,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/unfoldtest.json
+
+alightmotion-response = type=http-response,pattern=^https:\/\/us-central1-alight-creative\.cloudfunctions\.net\/getAccountStatusAndLicenses,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/AlightMotion.js
+
+wink-response = type=http-response,pattern=^https?:\/\/api-sub\.meitu\.com\/v2\/user\/vip_info_by_group\.json,requires-body=1,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/WinkVipCrack.js
+
+truecaller-response = type=http-response,pattern=^https://premium-(.+)\.truecaller\.com/v\d/(subscriptions|products\/apple),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/TrueCaller.js
+
+camscanner-response = type=http-response,pattern=https:\/\/(api|api-cs*)\.intsig\.net\/purchase\/cs\/query_prop,requires-body=1,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/camScanner.js
+
+beautyplus-response = type=http-response,pattern=https:\/\/(api\.mr\.pixocial\.com\/v1\/manual_unlock|newbeee-api\.beautyplus\.com\/api\/v1\/asset\/balance),requires-body=true,max-size=-1,timeout=60,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/BeautyPlus.js
+
+revenuecat-response = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/[^/]+$),script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/revenuecat_multi.js,requires-body=true,max-size=-1,timeout=60
+
+revenuecat-request = type=http-request,pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers),script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/deleteHeader.js,timeout=60
+locket-15s-config = type=http-response,pattern=^https?:\/\/(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)\/.*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/tranquocvu-3011/QuocVu_Scripts/main/locket_15s.js
+[URL Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad reject-200
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext reject-200
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+[Map Local]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad data-type=text data="" status-code=200
+
+[Header Rewrite]
+^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
+^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/( user-customization-service\/v1\/customize|bootstrap\/v1\/bootstrap)$ header-del if-none-match
+
+[MITM]
+hostname = %APPEND% -redirector*.googlevideo.com, *.googlevideo.com, www.youtube.com, s.youtube.com, youtubei.googleapis.com, spclient.wg.spotify.com, *-spclient.spotify.com, api.revenuecat.com, api.picsart.c*, api.meiease.c*, api-mobile.soundcloud.com, mb3admin.com, api-account.kinemasters.com, photos.adobe.io, lcs-mobile-cops.adobe.io, app.algoriddim.com, api.calm.com, api.busuu.com, api.prod.headspace.com, vsco.co, api.mojo-app.com, widgetsmith.com, api.funimate.com, api.reface.video, api.unfold.app, us-central1-alight-creative.cloudfunctions.net, api-sub.meitu.com, premium*.truecaller.com, ap*.intsig.net, api.mr.pixocial.com, newbeee-api.beautyplus.com, sub.store, api.locketcam.com, firebaseremoteconfig.googleapis.com
+enable = true
