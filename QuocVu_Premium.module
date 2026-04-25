@@ -1,5 +1,5 @@
-#!name=Locket Gold + 30 Apps — Quốc Vũ
-#!desc=✨ Locket Gold + 30 Apps Premium: YouTube + Spotify + SoundCloud + PicsArt + Emby + KineMaster + Lightroom + Photoshop + Djay + Calm + Bussu + VSCO + Mojo + Widgetsmith + Headspace + Funimate + Reface + Unfold + AlightMotion + Wink + Truecaller + CamScanner + BeautyPlus + Sub-Store 🔥 Không cần proxy.
+#!name=Locket Gold + 24 Apps — Quốc Vũ
+#!desc=✨ Locket Gold + 24 Apps Premium: YouTube + Spotify + SoundCloud + PicsArt + Emby + KineMaster + Lightroom + Photoshop + Djay + Calm + Bussu + VSCO + Mojo + Widgetsmith + Headspace + Funimate + Reface + Unfold + AlightMotion + Wink + Truecaller + CamScanner + BeautyPlus + Sub-Store 🔥 Không cần proxy.
 #!version=5.2.0
 #!date=2026-04-25
 #!author=Trần Quốc Vũ
@@ -204,3 +204,4 @@ revenuecat-request = type=http-request, pattern=^https:\/\/api\.revenuecat\.com\
 [MITM]
 hostname = %APPEND% -redirector*.googlevideo.com, *.googlevideo.com, www.youtube.com, s.youtube.com, youtubei.googleapis.com, spclient.wg.spotify.com, *-spclient.spotify.com, api.revenuecat.com, api.picsart.c*, api.meiease.c*, api-mobile.soundcloud.com, mb3admin.com, api-account.kinemasters.com, photos.adobe.io, lcs-mobile-cops.adobe.io, app.algoriddim.com, api.calm.com, api.busuu.com, api.prod.headspace.com, vsco.co, api.mojo-app.com, widgetsmith.com, api.funimate.com, api.reface.video, api.unfold.app, us-central1-alight-creative.cloudfunctions.net, api-sub.meitu.com, premium*.truecaller.com, ap*.intsig.net, api.mr.pixocial.com, newbeee-api.beautyplus.com, sub.store
 enable = true
+

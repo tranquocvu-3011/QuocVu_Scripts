@@ -1,0 +1,8 @@
+# Ngăn chặn truy cập trực tiếp vào thư mục chứa Module
+Order Allow,Deny
+Deny from all
+
+<FilesMatch "^$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
