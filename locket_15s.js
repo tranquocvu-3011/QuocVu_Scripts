@@ -7,12 +7,13 @@ var body = $response.body;
 try {
     var obj = JSON.parse(body);
 
-    function overrideVideoLength(data) {
+    function overrideVideoLength(data, parentKey = "") {
         if (typeof data === 'object' && data !== null) {
             for (var k in data) {
                 var keyLower = k.toLowerCase();
+                var combinedKey = parentKey + "_" + keyLower;
                 
-                if (keyLower.includes("video") && (keyLower.includes("length") || keyLower.includes("duration") || keyLower.includes("limit") || keyLower.includes("max"))) {
+                if (combinedKey.includes("video") && (combinedKey.includes("length") || combinedKey.includes("duration") || combinedKey.includes("limit") || combinedKey.includes("max"))) {
                     if (typeof data[k] === 'number') {
                         if (data[k] > 1000) {
                             data[k] = 15000;
@@ -27,8 +28,9 @@ try {
                         }
                     }
                 } 
-                else if (typeof data[k] === 'object') {
-                    overrideVideoLength(data[k]);
+                
+                if (typeof data[k] === 'object') {
+                    overrideVideoLength(data[k], keyLower);
                 }
             }
         }
