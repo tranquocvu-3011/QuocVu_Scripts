@@ -45,25 +45,6 @@ try {
         obj.entries.max_video_length_seconds = 15;
     }
 
-    // Bypass Locket Server cross-check for Gold Status
-    function forceGoldStatus(data) {
-        if (typeof data === 'object' && data !== null) {
-            for (var k in data) {
-                var keyLower = k.toLowerCase();
-                if (keyLower === 'is_premium' || keyLower === 'ispremium' || keyLower === 'is_gold' || keyLower === 'isgold' || keyLower === 'premium' || keyLower === 'gold') {
-                    if (typeof data[k] === 'boolean') {
-                        data[k] = true;
-                    } else if (typeof data[k] === 'number') {
-                        data[k] = 1;
-                    }
-                } else if (typeof data[k] === 'object') {
-                    forceGoldStatus(data[k]);
-                }
-            }
-        }
-    }
-    forceGoldStatus(obj);
-
     body = JSON.stringify(obj);
 } catch (e) {
     console.log("Locket 15s Script Error: " + e);
