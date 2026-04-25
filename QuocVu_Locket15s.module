@@ -43,6 +43,12 @@ locket-15s = type=http-response, pattern=^https?:\/\/(api\.locketcam\.com|fireba
 ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
 ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
 
+# Xóa ETag Cache của Firebase Remote Config & Locket API để ép load lại cấu hình 15s ngay lập tức
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del If-None-Match
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del if-none-match
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del If-Modified-Since
+^https?://(api\.locketcam\.com|firebaseremoteconfig\.googleapis\.com)/.* header-del if-modified-since
+
 [MITM]
 hostname = %APPEND% api.revenuecat.com, api.locketcam.com, firebaseremoteconfig.googleapis.com
 enable = true
