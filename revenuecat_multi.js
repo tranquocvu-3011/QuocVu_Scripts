@@ -51,8 +51,9 @@ if (match) {
   let hasRealEntitlement = false;
   try {
       if (obj.subscriber && obj.subscriber.entitlements && obj.subscriber.entitlements[e]) {
-          let expDate = new Date(obj.subscriber.entitlements[e].expires_date);
-          if (expDate > new Date()) {
+          let expDate = obj.subscriber.entitlements[e].expires_date;
+          // Nếu không có ngày hết hạn (Lifetime) hoặc ngày hết hạn trong tương lai
+          if (!expDate || new Date(expDate) > new Date()) {
               hasRealEntitlement = true;
           }
       }

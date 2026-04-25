@@ -35,10 +35,6 @@ try {
     }
 
     overrideVideoLength(obj);
-
-    if (obj.entries) {
-        overrideVideoLength(obj.entries);
-    }
     
     // Explicit override for known remote config key
     if (obj.entries && obj.entries.max_video_length_seconds) {
