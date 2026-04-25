@@ -46,8 +46,25 @@ var subscriptionData = {
 const match = Object.keys(mapping).find(e => ua.includes(e));
 if (match) {
   let [e, s] = mapping[match];
-  s ? (locketGold.product_identifier = s, obj.subscriber.subscriptions[s] = subscriptionData) : obj.subscriber.subscriptions["locket_1600_1y"] = subscriptionData, obj.subscriber.entitlements[e] = locketGold
-} else obj.subscriber.subscriptions["locket_1600_1y"] = subscriptionData, obj.subscriber.entitlements.pro = locketGold;
+  
+  // Smart Bypass: Nếu tài khoản đã có VIP/Gold xịn thật từ server thì không ghi đè đồ ảo lên
+  let hasRealEntitlement = false;
+  try {
+      if (obj.subscriber && obj.subscriber.entitlements && obj.subscriber.entitlements[e]) {
+          let expDate = new Date(obj.subscriber.entitlements[e].expires_date);
+          if (expDate > new Date()) {
+              hasRealEntitlement = true;
+          }
+      }
+  } catch (err) {}
+
+  if (!hasRealEntitlement) {
+      s ? (locketGold.product_identifier = s, obj.subscriber.subscriptions[s] = subscriptionData) : obj.subscriber.subscriptions["locket_1600_1y"] = subscriptionData, obj.subscriber.entitlements[e] = locketGold;
+  }
+} else {
+  obj.subscriber.subscriptions["locket_1600_1y"] = subscriptionData;
+  obj.subscriber.entitlements.pro = locketGold;
+}
 
 $done({
   body: JSON.stringify(obj)
