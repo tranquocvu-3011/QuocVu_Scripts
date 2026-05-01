@@ -11,7 +11,7 @@
 [General]
 bypass-system = true
 skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
-dns-server = https://dns.nextdns.io/6aa26e
+dns-server = https://my.ublockdns.com/zp49yhaw
 ipv6 = false
 force-http-engine-hosts = %APPEND% *youtube.com:443, *googlevideo.com:443
 
